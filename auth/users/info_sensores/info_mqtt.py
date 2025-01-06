@@ -3,6 +3,16 @@ import time
 import paho.mqtt.client as mqtt
 import random
 import json
+from dotenv import load_dotenv
+import os
+
+# Cargar el archivo .env
+load_dotenv("cred.env")
+
+# Acceder a las credenciales
+mqtt_ip = os.getenv("mqtt_ip")
+mqtt_user = os.getenv("mqtt_user")
+mqtt_passwd = os.getenv("mqtt_passwd")
 
 MONGO_URI = "mongodb://localhost:27017/"
 MONGO_DB = "mqtt_data"
@@ -11,9 +21,9 @@ MONGO_COLLECTION = "mqtt_messages"
 fin_info = None
 class get_info_new():
     def __init__(self, cualTopic,new_topic,name,token,esp_cat):
-        self.mqtt_broker = "IP"
-        self.mqtt_user = "USER"
-        self.mqtt_pass = "PASS"
+        self.mqtt_broker = mqtt_ip
+        self.mqtt_user = mqtt_user
+        self.mqtt_pass = mqtt_passwd
         self.mqtt_topic = cualTopic
         self.new_topic = new_topic
         self.name = name

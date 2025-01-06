@@ -5,7 +5,7 @@ import json
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv("cred.env")
 mqtt_user = os.getenv("mqtt_user")
 mqtt_passwd = os.getenv("mqtt_passwd")
 mqtt_ip = os.getenv("mqtt_ip")

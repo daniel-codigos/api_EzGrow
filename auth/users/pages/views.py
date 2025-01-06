@@ -563,15 +563,16 @@ def API_set_bidones(request):
         print(fin)
 
         if len(info) > 0:
-            for cada_aparato in info:
-                if cada_aparato.info['space'] == data['space']:
+
                     #existe lo que kiere modificar
                     check_hora = SaveBidones.objects.filter(user_id=user.id)
                     if len(check_hora) > 0:
                         #ya hya una hora creada, toca modificar
                         for cada_horario in check_hora:
-                            if cada_horario.info['space'] == data['space']:
+                            print(cada_horario.info['tipo'])
+                            if cada_horario.info['space'] == data['space'] and cada_horario.info['tipo'] == data['tipo']:
                                 SaveBidones.objects.filter(user_id=user.id).update(info=data)
+                                break
                             else:
                                 serializer = save_bidones(data=fin)
                                 if serializer.is_valid():
@@ -580,8 +581,8 @@ def API_set_bidones(request):
                                     # if final_data['info']['aparato'] != '':
                                     serializer.save()
                                     return Response(fin)
-                        print("modificar hora ya creada con update jejajeja")
                     else:
+                        #no hay ningun dato creado, este será el primero
                         serializer = save_bidones(data=fin)
                         if serializer.is_valid():
                             #hacer pekeño check para int() de los horarios
@@ -589,7 +590,7 @@ def API_set_bidones(request):
                             # if final_data['info']['aparato'] != '':
                             serializer.save()
                             return Response(fin)
-                    print(cada_aparato)
+
                     print(data)
         else:
             return Response({'Error':'No hay una lampara creada para modificar.'})

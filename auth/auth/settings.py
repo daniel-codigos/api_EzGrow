@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 import os
 
 # Cargar el archivo .env
-load_dotenv()
+load_dotenv("cred.env")
 
 # Acceder a las credenciales
 secret = os.getenv("secret")

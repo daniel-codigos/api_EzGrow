@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 # Cargar el archivo .env
-load_dotenv()
+load_dotenv("cred.env")
 
 # Acceder a las credenciales
 mqtt_ip = os.getenv("mqtt_ip")
