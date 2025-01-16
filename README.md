@@ -36,7 +36,7 @@ if not ip_address.startswith('192.168.'):
 Esta linea revisa si la conexion procede de red interna local.
 
 ```
-if not (country_code == 'ES') and ip_address not in ['54.38.180.107','45.135.180.216']:
+if not (country_code == 'ES') and ip_address not in ['IPS']:
 ```
 Si no es local, revisa que la conexion sea Española y que sea de nuestros servidores, si no es asi error.
 En caso de no querer usar esto anterior dentro de auth/auth/settings.py dentro de los MiddleWare:
