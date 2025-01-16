@@ -16,8 +16,8 @@ from dotenv import load_dotenv
 import os
 
 # Cargar el archivo .env
-load_dotenv("cred.env")
-
+ruta = os.getcwd()
+load_dotenv(ruta+"/cred.env")
 # Acceder a las credenciales
 secret = os.getenv("secret")
 uri = os.getenv("uri")
