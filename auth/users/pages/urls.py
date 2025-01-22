@@ -22,6 +22,7 @@ urlpatterns = [
     path('set_bidones', views.API_set_bidones),
     path('info_bidones', views.API_info_bidones),
     path('rellenar_bidon', views.API_rellenar_bidon),
+    path('autorellenar_bidon', views.API_autorellenar_bidon),
     #rutinas
     #que esta tambn mira pa editar o q hacer, sencillo
     path('crear_rutina', views.API_crear_rutina),

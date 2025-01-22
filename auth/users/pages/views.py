@@ -725,6 +725,75 @@ def API_lanzar_riego(request):
 
 @api_view(['post'])
 @permission_classes([IsAuthenticated])
+def API_autorellenar_bidon(request):
+    if request.method == 'POST':
+        user = request.user
+        data = request.data['fin']
+        space = data['space']
+        data['tipo'] = "autorelleno"
+        now = datetime.now()
+        time_stamp = datetime.timestamp(now)
+        fin = {'user':user.id, 'timestamp':time_stamp,'info_relleno':data}
+        serializer = save_rellena(data=fin)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            print("no ha sido valido lo q kerias guarda lokooooo")
+        info = list(SaveAparatoData.objects.filter(user_id=user.id))
+        save_meros = list(SaveMerossInfo.objects.filter(user_id=user.id))
+        credenciales = [save_meros[0].email, save_meros[0].passwd, user.username]
+        saveBidones = list(SaveBidones.objects.filter(user_id=user.id))
+        index = 0
+        for num,cadaBidon in enumerate(saveBidones):
+            if cadaBidon.info['tipo'] == "autorellena":
+                index = num
+                break
+
+        tiempoFin = (int(data['cantidadRellenar']) * int(saveBidones[index].info['minutos']) / int(saveBidones[index].info['litros'])) * 60
+        aparatos = [obj.info for obj in info]
+        datos = [credenciales, aparatos]
+        # cada 30 segundos da 10 litros y cada minuto 20 litros
+        # Ejecuta lanzarRelleno en el loop asíncrono
+        asyncio.run(lanzarAutoRelleno(datos[0], datos[1], space, int(tiempoFin)))
+
+        return Response({'Save': 'Guardado Correctamente!'})
+    else:
+        return Response({'Error': "Info no puede ser guardada. Incorrecta."})
+
+
+async def lanzarAutoRelleno(credenciales, aparatos, spacename, tiempo):
+    elegido = None
+    for cada_aparato in aparatos:
+        #print(cada_aparato)
+        if cada_aparato['aparato'] == "Valvula Relleno":
+            elegido = cada_aparato
+            break
+    print(elegido)
+    print(tiempo)
+    print("-----------------------------------")
+    sala_riego = spacename
+    await asyncio.sleep(5)
+    await main_action(credenciales[0], credenciales[1], {
+        "regleta": elegido['regleta'],
+        "channel": elegido['numChannel'],
+        "aparato": elegido['aparato'],
+        "space": sala_riego,
+        "accion": "on"
+    })
+    await asyncio.sleep(tiempo)
+    await main_action(credenciales[0], credenciales[1], {
+        "regleta": elegido['regleta'],
+        "channel": elegido['numChannel'],
+        "aparato": elegido['aparato'],
+        "space": sala_riego,
+        "accion": "off"
+    })
+    await asyncio.sleep(10)
+    print("Proceso completado.")
+
+
+@api_view(['post'])
+@permission_classes([IsAuthenticated])
 def API_rellenar_bidon(request):
     if request.method == 'POST':
         user = request.user
