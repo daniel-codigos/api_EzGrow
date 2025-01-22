@@ -808,13 +808,6 @@ def API_rellenar_bidon(request):
             serializer.save()
         else:
             print("no ha sido valido lo q kerias guarda lokooooo")
-        print("yiiiiiiiiiiiiiiiiiija")
-        print(data)
-        print(now)
-        print(time_stamp)
-        print(datetime.fromtimestamp(time_stamp))
-        print("-------------------------------------------------------")
-
         info = list(SaveAparatoData.objects.filter(user_id=user.id))
         save_meros = list(SaveMerossInfo.objects.filter(user_id=user.id))
         credenciales = [save_meros[0].email, save_meros[0].passwd, user.username]
@@ -834,7 +827,6 @@ async def lanzarRelleno(credenciales, aparatos, spacename, numLitros):
     formula = (cuanto / 6300) * 60
     elegido = None
     for cada_aparato in aparatos:
-        print(cada_aparato)
         if cada_aparato['aparato'] == "Bomba de rellenar":
             elegido = cada_aparato
             break
