@@ -1,8 +1,15 @@
 import jwt, datetime
 from rest_framework import exceptions
-#from ..auth.settings import SECRET_KEY
+from dotenv import load_dotenv
+import os
 
-SECRET_KEY = 'django-insecure-i9fd%0z8_-97-t@!^(mihs7(dvq_mm&k3*-(-10cx-srurcq9*'
+# Cargar el archivo .env
+ruta = os.getcwd()
+print(ruta)
+load_dotenv(ruta+"/cred.env")
+# Acceder a las credenciales
+SECRET_KEY = os.getenv("secret")
+
 
 def create_access_token(id,email):
     return jwt.encode({

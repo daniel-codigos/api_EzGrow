@@ -8,10 +8,12 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import ValidationError, ParseError
+from rest_framework import status
 from rest_framework_simplejwt.views import TokenRefreshView,TokenObtainPairView
 from .authentication import create_access_token, create_refresh_token,decode_access_token,decode_refresh_token
 from .serializers import UserSerializer
-from .models import User
+from .models import User,Seriales
 
 import jwt,datetime
 # Create your views here.
@@ -50,10 +52,32 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 class RegisterView(APIView):
     def post(self,request):
-        serializer = UserSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data)
+        print(request.data['fin'])
+        data = request.data['fin']
+        print(data['username'])
+        existSerial = Seriales.objects.filter(serial=data['serial']).count()
+        print(existSerial)
+        if existSerial == 1:
+            existUser = User.objects.filter(username=data['username']).count()
+            existMail = User.objects.filter(email=data['email']).count()
+            if existUser > 0:
+                print("lolaxoooo")
+                raise ValidationError({"Error":"Usuario ya existe con se nombre!!"})
+            elif existMail > 0:
+                raise ValidationError({"Error":"Email ya registrado!!"})
+            else:
+                #print(exist.exist())
+                #aqui borra el serial usado por el user.
+                #Seriales.objects.filter(serial=data['serial'])
+                Seriales.objects.filter(serial=data['serial']).delete()
+                serializer = UserSerializer(data=request.data['fin'])
+                print(serializer)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response(serializer.data)
+        else:
+            #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            raise ValidationError({"Error":"Serial no valido!!"})
 
 class LoginView(APIView):
     def post(self,request):

@@ -12,13 +12,12 @@ urlpatterns = [
     #path('login',LoginView.as_view()),
     path('login',MyTokenObtainPairView.as_view(), name='token_access'),
     path('user',UserView.as_view()),
-    #aqui es la api de config y tal
+    #API Config
     path('user2/',include('users.apitosa.urls')),
-    #aqui api de sensores
+    #API sensores
     path('info_sensores/',include('users.info_sensores.urls')),
     path('pages/',include('users.pages.urls')),
     path('logout',LogoutView.as_view()),
     path('verify',get_verify),
     path('refresh',TokenRefreshView.as_view(), name='token_refresh')
-    #path('refresh',RefreshView.as_view()),
 ]

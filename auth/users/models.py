@@ -3,14 +3,17 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
  #hora 1:50:25
 class User(AbstractUser):
-    name = models.CharField(max_length=8)
     username = models.CharField(unique=True, max_length=10)
     password = models.CharField(max_length=20)
     email = models.CharField(unique=True,max_length=35)
+    serial = models.CharField(unique=True, max_length=16)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    REQUIRED_FIELDS = ['email','password','serial']
 
+class Seriales(models.Model):
+    serial = models.CharField(unique=True, max_length=16)
+    REQUIRED_FIELDS = ['serial']
 
 class show_info(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

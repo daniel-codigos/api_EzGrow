@@ -9,8 +9,8 @@ pytz
 PyJWT
 django-cors-headers
 channels==3.0.5
-sqlparse==0.2.4
 pymongo==3.12.3
 setuptools
 ipwhois
 python-dotenv
+sqlparse==0.2.4

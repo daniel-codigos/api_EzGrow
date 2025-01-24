@@ -17,10 +17,12 @@ import os
 
 # Cargar el archivo .env
 ruta = os.getcwd()
+print(ruta)
 load_dotenv(ruta+"/cred.env")
 # Acceder a las credenciales
 secret = os.getenv("secret")
 uri = os.getenv("uri")
+print(uri)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
