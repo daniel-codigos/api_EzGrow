@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import User,show_info,Seriales
 from rest_framework.serializers import ModelSerializer
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -19,7 +20,6 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-
 class SerialesR(ModelSerializer):
     class Meta:
         model = Seriales

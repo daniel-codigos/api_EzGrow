@@ -23,6 +23,7 @@ wheels/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
+reinicio.py
 *.egg
 MANIFEST
 cred.env
