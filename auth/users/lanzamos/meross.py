@@ -32,7 +32,6 @@ async def list_dev(email,passwd):
         #await dev.async_update()
         #print(f"Turning on {dev.name}...")
         #await dev.async_turn_off(channel=2)
-    # Close the manager and logout from http_api
     manager.close()
     #await http_api_client.async_logout()
     print(final_info)

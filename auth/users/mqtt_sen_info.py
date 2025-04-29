@@ -72,6 +72,9 @@ class get_info():
 
             if not self.respuesta:
                 print("Timeout alcanzado, no se recibió respuesta.")
+                print(self.mqtt_topic)
+                print(self.mqtt_client)
+                print(self.mqtt_broker)
                 return None
 
         except KeyboardInterrupt:
